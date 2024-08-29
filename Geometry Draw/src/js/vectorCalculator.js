@@ -24,5 +24,8 @@ function vector() {
 
 // Para poner en el span
     document.getElementById("result").innerHTML = vectorFinal;
+    document.getElementById("result2").innerHTML = vectorFinal;
+    document.getElementById("result3").innerHTML = vectorFinal;
+    document.getElementById("result4").innerHTML = vectorFinal;
     //alert(vectorFinal);
 }
