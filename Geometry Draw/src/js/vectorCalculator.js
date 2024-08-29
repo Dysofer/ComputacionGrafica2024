@@ -20,5 +20,9 @@ function vector() {
     vy = by-ay,
     vz = bz-az;
 
-    alert("El vector resultante es: ("+vx+", "+vy+", "+vz+")");
+    let vectorFinal = `(${vx},${vy},${vz})`;
+
+// Para poner en el span
+    document.getElementById("result").innerHTML = vectorFinal;
+    //alert(vectorFinal);
 }
