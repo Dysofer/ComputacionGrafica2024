@@ -36,6 +36,10 @@
         <nav class="navbar bg-primary"><!--data-bs-theme="dark"-->
             <div class="container-fluid">
                 <a class="navbar-brand" style="color: white;" href="#">Geometry 3D</a>
+
+                <!--  -->
+                <a style="color: white;" href="" >3D Visualitation</a>
+
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Author(S)
@@ -178,14 +182,23 @@
                                         </div>
                                         <div class="card-body">
                                             <form action=""> <!-- Punto Final - Punto Inicial = Vector -->
-                                                <label for="">Punto A</label>
+                                                <label for="">Punto A (Punto Inicial)</label>
                                                 <span>(</span>
-                                                <input type="number" name="puntoAX4" id="puntoAX4">
+                                                <input type="number" name="puntoAX4" id="puntoAX4" placeholder="X">
+                                                <span>,</span>
+                                                <input type="number" name="puntoAY4" id="puntoAY4" placeholder="Y">
+                                                <span>,</span>
+                                                <input type="number" name="puntoAZ4" id="puntoAZ4" placeholder="Z">
                                                 <span>)</span>
                                                 <br><br>
-                                                <label for="">Punto B</label>
+
+                                                <label for="">Punto B (Punto Final)</label>
                                                 <span>(</span>
-                                                <input type="number" name="puntoBX4" id="puntoBX4">
+                                                <input type="number" name="puntoBX4" id="puntoBX4" placeholder="X">
+                                                <span>,</span>
+                                                <input type="number" name="puntoBY4" id="puntoBY4" placeholder="Y">
+                                                <span>,</span>
+                                                <input type="number" name="puntoBZ4" id="puntoBZ4" placeholder="Z">
                                                 <span>)</span>
                                                 <br><br>
                                                 <div class="d-grid gap-2">

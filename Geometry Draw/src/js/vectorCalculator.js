@@ -71,9 +71,14 @@ function vector() {
 
     function vector4(){
         let ax = document.getElementById("puntoAX4").value;
+         let ay = document.getElementById("puntoAY4").value;
+         let az = document.getElementById("puntoAZ4").value;
+     
          let bx = document.getElementById("puntoBX4").value;
+         let by = document.getElementById("puntoBY4").value;
+         let bz = document.getElementById("puntoBZ4").value;
 
-         let vx4 = Math.sqrt(Math.pow(ax,2) + Math.pow(bx,2));
+         let vx4 = Math.sqrt(Math.pow(ax,2) + Math.pow(bx,2) + Math.pow(ay,2) + Math.pow(by,2) + Math.pow(az,2) + Math.pow(bz,2));
 
          let vectorFinal4 = `(${vx4})`;
 
