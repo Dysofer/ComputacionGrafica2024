@@ -63,52 +63,31 @@ function onWindowResize(){
 }
  
 function createGeometry(geometryDraw) {
-  var geometryFigure = null;
-  
-  // Obtener valores de los inputs
-  const width = parseFloat(document.getElementById('inputWidth').value);
-  const height = parseFloat(document.getElementById('inputHeight').value);
-  const depth = parseFloat(document.getElementById('inputDepth').value);
-  
-  switch(geometryDraw) {
-      case 'Box':
-          geometryFigure = new THREE.BoxGeometry(width, height, depth);
-          break;
-      case 'Torus':
-          geometryFigure = new THREE.TorusGeometry(width, height, 16, 100);
-          break;
-      case 'Cone':
-          geometryFigure = new THREE.ConeGeometry(width, height, 32);
-          break;
-  }
-  
-  var randomColor = +('0x' + Math.floor(Math.random()*16777215).toString(16));
-  const material = new THREE.MeshStandardMaterial({
-      color: randomColor,
-      transparent: false,
-      opacity: 0.5,
-      wireframe: false,
-      roughness: 0.5,
-      metalness: 1
-  });
-  
-  const objectDraw = new THREE.Mesh(geometryFigure, material);
-  scene.add(objectDraw);
+    // Box, Torus, Cone
+    var geometryFigure = null;
 
-  // Aplicar rotación inicial
-  updateRotation(objectDraw);
-}
-
-// Nueva función para actualizar la rotación
-function updateRotation(object) {
-  const rotationX = THREE.Math.degToRad(parseFloat(document.getElementById('inputRotationX').value));
-  const rotationY = THREE.Math.degToRad(parseFloat(document.getElementById('inputRotationY').value));
-  const rotationZ = THREE.Math.degToRad(parseFloat(document.getElementById('inputRotationZ').value));
-  
-  object.rotation.set(rotationX, rotationY, rotationZ);
-}
-
-function updateFigure() {
-  // Actualizar geometría y rotación al presionar el botón
-  createGeometry(currentGeometry);  // Reemplaza 'currentGeometry' con la variable adecuada si tienes un seguimiento de la geometría actual.
+    switch(geometryDraw) {
+        case 'Box':
+          // code block
+            geometryFigure = new THREE.BoxGeometry( 1, 1, 1 );
+          break;
+        case 'Torus':
+          // code block
+            geometryFigure = new THREE.TorusGeometry( 10, 1, 16, 100 ); 
+          break;
+        case 'Cone':
+          // code block
+            geometryFigure = new THREE.ConeGeometry( 5, 10, 32 );
+          break;
+    }
+    var randomColor = +('0x' + Math.floor(Math.random()*16777215).toString(16));
+    const material = new THREE.MeshStandardMaterial( { color: randomColor,
+                                                    transparent: false,
+                                                    opacity: 0.5,
+                                                    wireframe: false,
+                                                    roughness: 0.5,
+                                                    metalness: 1
+     } );
+    const objectDraw = new THREE.Mesh( geometryFigure, material );
+    scene.add( objectDraw );
 }
