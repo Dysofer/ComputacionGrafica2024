@@ -2,7 +2,7 @@ var scene = null,
     camera = null,
     renderer = null,
     controls = null;
- 
+    light = null;
 const size = 20,
     division = 20;
  
@@ -45,6 +45,46 @@ function startScene() {
     scene.add( pointLightHelper );
 }
  
+function createLight(typeLight){
+switch(typeLight){
+
+case "ambient":
+    light = new THREE.AmbientLight( 0x404040 ); // soft white light
+scene.add( light );
+    break;
+
+    case "directionalLight":
+        directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+scene.add( light );
+        break;
+
+        case "pointLight":
+            light = new THREE.PointLight( 0xff0000, 1, 100 );
+light.position.set( 50, 50, 50 );
+scene.add( light );
+            break;
+
+            case "SpotLight":
+                light = new THREE.SpotLight( 0xffffff );
+                light.position.set( 100, 1000, 100 );
+                light.map = new THREE.TextureLoader().load( url );
+                
+                light.castShadow = true;
+                
+                light.shadow.mapSize.width = 1024;
+                light.shadow.mapSize.height = 1024;
+                
+                light.shadow.camera.near = 500;
+                light.shadow.camera.far = 4000;
+                light.shadow.camera.fov = 30;
+                
+                scene.add( light );
+                break;
+
+}
+
+}
+
 function animate() {
     requestAnimationFrame(animate);
     controls.update
