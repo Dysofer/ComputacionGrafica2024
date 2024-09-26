@@ -1,6 +1,6 @@
-<!-- Author(a): Kelly D. Marin Montealegre
+<!-- Author(a): Dilan A. Solís Fernández
     Date of creation: 5 September 2024
-    Last Modification: 5 September 2024 10:24
+    Last Modification: 25 September 2024 23:24
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -24,20 +24,59 @@
                 <div style="z-index: 9;">
                     <div class="container text-center">
                         <div class="row">
-                          <div class="col-4">
-                            <button class="btn btn-secondary" onclick="createGeometry('Torus')">Torus</button>
-                          </div>
-                          <div class="col-4">
-                            <button class="btn btn-secondary" onclick="createGeometry('Cone')">Cone</button>
-                          </div>
-                          <div class="col-4">
-                            <button class="btn btn-secondary" onclick="createGeometry('Box')">Box</button>
-                          </div>
+                            <div class="col-4">
+                                <button class="btn btn-secondary" onclick="createGeometry('Torus')">Torus</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-secondary" onclick="createGeometry('Cone')">Cone</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-secondary" onclick="createGeometry('Box')">Box</button>
+                            </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
-          </nav>
+        </nav>
+
+        <!-- Inputs para controlar las dimensiones y la rotación de las figuras -->
+        <div class="container text-center my-4">
+            <div class="row g-3">
+                <!-- Inputs para el tamaño de las figuras -->
+                <div class="col-4">
+                    <label for="inputWidth">Ancho (Width):</label>
+                    <input type="number" id="inputWidth" class="form-control" value="1" min="0.1" step="0.1">
+                </div>
+                <div class="col-4">
+                    <label for="inputHeight">Alto (Height):</label>
+                    <input type="number" id="inputHeight" class="form-control" value="1" min="0.1" step="0.1">
+                </div>
+                <div class="col-4">
+                    <label for="inputDepth">Profundidad (Depth):</label>
+                    <input type="number" id="inputDepth" class="form-control" value="1" min="0.1" step="0.1">
+                </div>
+
+                <!-- Inputs para la rotación -->
+                <div class="col-4">
+                    <label for="inputRotationX">Rotación X:</label>
+                    <input type="number" id="inputRotationX" class="form-control" value="0" step="5">
+                </div>
+                <div class="col-4">
+                    <label for="inputRotationY">Rotación Y:</label>
+                    <input type="number" id="inputRotationY" class="form-control" value="0" step="5">
+                </div>
+                <div class="col-4">
+                    <label for="inputRotationZ">Rotación Z:</label>
+                    <input type="number" id="inputRotationZ" class="form-control" value="0" step="5">
+                </div>
+            </div>
+
+            <!-- Botón para actualizar la figura -->
+            <div class="mt-3">
+                <button class="btn btn-secondary" onclick="updateFigure()">Actualizar Figura</button>
+            </div>
+        </div>
+
         <canvas id="app"></canvas>
     </div>
 
