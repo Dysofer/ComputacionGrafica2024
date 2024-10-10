@@ -45,6 +45,7 @@ function loadObjMtl() {
         objLoader.setPath(generalPath);
         objLoader.load(fileObj, function(object) {
             scene.add(object);
+            object.scale.set(0.5, 0.5, 0.5);
         });
     });
 }
