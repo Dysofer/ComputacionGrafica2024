@@ -35,6 +35,7 @@ function startScene() {
     scene.add(plane);
 
     createCity();
+    loadObjMtl();
     createUI();
     animate(); // Llama a la función de animación  
 }
