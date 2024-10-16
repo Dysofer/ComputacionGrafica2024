@@ -2,16 +2,17 @@ function createUI() {
     var gui = new dat.GUI();
 
     var param = {
-        a: "Ronin",
+        a: "Cerdo",
         b: "#FF00FF",
         c: 1
     };
 
     var g = gui.addFolder('Geometria');
-    var player = g.add(param, 'a', ["Mujer", "Hombre", "Luigi", "Mario", "Ronin"]).name("Modelos 3D");
+    var player = g.add(param, 'a', ["Mujer", "Hombre", "Luigi", "Mario", "Cerdo"]).name("Modelos 3D");
 
     player.onChange(function(myPlayer) {
         console.log(myPlayer);
+        LoadObjMtl(myPlayer);
     });
 
     var l = gui.addFolder('Luces');
@@ -28,12 +29,20 @@ function createUI() {
     });
 }
 
-function loadObjMtl() {
-    // general Path, nameObj, nameMTL
-    var generalPath = "./src/models/obj/myPlayer/";
-    var fileObj = "cerdo.obj";
-    var fileMtl = "cerdo.mtl";
+function loadObjMtl(Modelz){
+    //general path, nameObj, nameMTL
 
+
+
+    var generalPath = "../src/models/modelos/obj/" + Modelz + "/";
+    var fileObj = Modelz + ".obj";
+    var fileMtl = Modelz + ".mtl";
+
+    /*
+    alert(generalPath);
+    alert(fileObj);
+    alert(fileMtl);
+    */
     var mtlLoader = new THREE.MTLLoader();
     mtlLoader.setTexturePath(generalPath);
     mtlLoader.setPath(generalPath);
@@ -44,8 +53,30 @@ function loadObjMtl() {
         objLoader.setMaterials(materials);
         objLoader.setPath(generalPath);
         objLoader.load(fileObj, function(object) {
-            scene.add(object);
-            object.scale.set(0.5, 0.5, 0.5);
-        });
-    });
+
+            
+
+            //si se ponde solo la variable en el if es para confirmar si vale algo o existe
+            if(Modelo){
+                scene.remove(Modelo);
+            }
+
+            
+
+            Modelo = object;
+            scene.add(Modelo);
+
+            
+            
+
+            
+
+             object.scale.set(0.25,0.25,0.25);
+
+            
+
+            object.position.set( 2, 0.01, -1);
+
+        });
+    });
 }
