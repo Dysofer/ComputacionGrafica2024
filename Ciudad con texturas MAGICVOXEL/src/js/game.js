@@ -31,8 +31,8 @@ function createUI() {
 function loadObjMtl() {
     // general Path, nameObj, nameMTL
     var generalPath = "./src/models/obj/myPlayer/";
-    var fileObj = "ronin-1.obj";
-    var fileMtl = "ronin-1.mtl";
+    var fileObj = "cerdo.obj";
+    var fileMtl = "cerdo.mtl";
 
     var mtlLoader = new THREE.MTLLoader();
     mtlLoader.setTexturePath(generalPath);
