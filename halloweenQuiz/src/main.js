@@ -1,8 +1,8 @@
 // ----------------------------
 // Inicialización de Variables:
 // ----------------------------
-var scene    = null,
-    camera   = null,
+var scene = null,
+    camera = null,
     renderer = null,
     controls = null,
     clock = null,
@@ -18,8 +18,7 @@ var player = null,
     maxObjects = 10,
     gravityIncrement = 0.001;
 
-const keys = { left: false,
-            right: false };
+const keys = { left: false, right: false };
 
 // UI Elements
 const scoreDisplay = document.getElementById("score");
@@ -41,11 +40,10 @@ function start() {
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth,
-            window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function initScene(){
+function initScene() {
     initBasicElements(); // Scene, Camera and Render
     initSound();         // To generate 3D Audio
     createLight();       // Create light
@@ -55,17 +53,17 @@ function initBasicElements() {
     const colorFog = 0x071D36,
           nearFog = 10,
           far = 70;
+
     scene = new THREE.Scene();
     scene.background = new THREE.Color(colorFog);
 
     camera = new THREE.PerspectiveCamera(
-        75,                                     // Ángulo "grabación" - De abaja -> Arriba 
-        window.innerWidth / window.innerHeight, // Relación de aspecto 16:9
-        0.1,                                    // Mas cerca (no renderiza) 
-        1000                                    // Mas lejos (no renderiza)
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
     );
 
-    // renderer = new THREE.WebGLRenderer();
     renderer = new THREE.WebGLRenderer({ canvas: document.querySelector("#app") });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -74,8 +72,10 @@ function initBasicElements() {
     scene.fog = new THREE.Fog(colorFog, nearFog, far);
 
     // Crear jugador (simple cubo)
+    const geometryTexture = new THREE.TextureLoader().load('./src/img/HalloweenTexture.png');
     const geometry2 = new THREE.BoxGeometry(1, 1, 1);
-    const material2 = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+    const material2 = new THREE.MeshBasicMaterial({   map: geometryTexture,
+      side: THREE.DoubleSide });
     player = new THREE.Mesh(geometry2, material2);
     scene.add(player);
     player.position.y = -3;
@@ -97,121 +97,125 @@ function initBasicElements() {
 }
 
 function spawnObject() {
-    const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xff5733 });
-    const object = new THREE.Mesh(geometry, material);
-  
-    object.position.set((Math.random() - 0.5) * 10, 5, 0);
-    fallingObjects.push(object);
-    scene.add(object);
-  
-    // Añadir la clase de animación al objeto
-    const canvasElement = renderer.domElement;
-    canvasElement.classList.add('fallingObject');
-  
+    const mtlLoader = new THREE.MTLLoader();
+    mtlLoader.load('./src/modelos/cerdoH.mtl', function (materials) {
+        materials.preload();
+        const objLoader = new THREE.OBJLoader();
+        objLoader.setMaterials(materials);
+        objLoader.load('./src/modelos/cerdoH.obj', function (object) {
+          object.scale.set(0.5, 0.5, 0.5);
+            object.position.set((Math.random() - 0.5) * 10, 5, 0);
+            fallingObjects.push(object);
+            scene.add(object);
+        }, undefined, function (error) {
+            console.error('Error al cargar el modelo:', error);
+        });
+    });
+
     // Seguir generando objetos hasta el límite
     if (!gameOver && fallingObjects.length < maxObjects) {
-      setTimeout(spawnObject, Math.random() * 1500 + 500);
+        setTimeout(spawnObject, Math.random() * 1500 + 500);
     }
-  }
+}
 
 function countdown() {
-  if (gameOver) return;
-  time--;
-  timeDisplay.innerText = `Tiempo: ${time}`;
+    if (gameOver) return;
+    time--;
+    timeDisplay.innerText = `Tiempo: ${time}`;
 
-  // Incrementa la gravedad con el tiempo
-  if (time <= 30 && time > 20) {
-    gravity += gravityIncrement * 0.5;  // Aumenta la gravedad ligeramente en los primeros 10 segundos
-  } else if (time <= 20 && time > 10) {
-    gravity += gravityIncrement * 1;    // Aumenta más rápido en los siguientes 10 segundos
-  } else if (time <= 10) {
-    gravity += gravityIncrement * 1.5;  // Aumenta aún más rápido en los últimos 10 segundos
-  }
+    // Incrementa la gravedad con el tiempo
+    if (time <= 30 && time > 20) {
+        gravity += gravityIncrement * 0.5;  // Aumenta la gravedad ligeramente en los primeros 10 segundos
+    } else if (time <= 20 && time > 10) {
+        gravity += gravityIncrement * 1;    // Aumenta más rápido en los siguientes 10 segundos
+    } else if (time <= 10) {
+        gravity += gravityIncrement * 1.5;  // Aumenta aún más rápido en los últimos 10 segundos
+    }
 
-  if (time <= 0) {
-    endGame(false);
-  }
+    if (time <= 0) {
+        endGame(false);
+    }
 }
 
 function animate() {
-  if (gameOver) return;
+    if (gameOver) return;
 
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
-  // Mover el jugador
-  if (keys.left && player.position.x > -5) player.position.x -= 0.1;
-  if (keys.right && player.position.x < 5) player.position.x += 0.1;
+    // Mover el jugador
+    if (keys.left && player.position.x > -5) player.position.x -= 0.1;
+    if (keys.right && player.position.x < 5) player.position.x += 0.1;
 
-  // Mover objetos
-  fallingObjects.forEach((object, index) => {
-    object.position.y -= speed + gravity;  // Usa la gravedad ajustada
+    // Mover objetos
+    fallingObjects.forEach((object, index) => {
+        object.position.y -= speed + gravity;  // Usa la gravedad ajustada
 
-    // Verificar colisión con el jugador
-    if (object.position.distanceTo(player.position) < 0.7) {
-      score++;
-      scoreDisplay.innerText = `Puntos: ${score}`;
-      scene.remove(object);
-      fallingObjects.splice(index, 1);
+        // Verificar colisión con el jugador
+        if (object.position.distanceTo(player.position) < 0.7) {
+            score++;
+            scoreDisplay.innerText = `Puntos: ${score}`;
+            scene.remove(object);
+            fallingObjects.splice(index, 1);
 
-      if (score >= 10) {
-        endGame(true);
-      }
-    }
+            if (score >= 10) {
+                endGame(true);
+            }
+        }
 
-    // Eliminar objetos que caen fuera de la pantalla
-    if (object.position.y < -5) {
-      scene.remove(object);
-      fallingObjects.splice(index, 1);
-    }
-  });
+        // Eliminar objetos que caen fuera de la pantalla
+        if (object.position.y < -5) {
+            scene.remove(object);
+            fallingObjects.splice(index, 1);
+        }
+    });
 
-  renderer.render(scene, camera);
+    renderer.render(scene, camera);
 }
 
 function endGame(victory) {
-  gameOver = true;
-  resultMessage.classList.remove('hidden');
-  restartBtn.classList.remove('hidden');
-  
-  if (victory) {
-    resultMessage.innerText = '¡Ganaste! 🎃';
-  } else {
-    resultMessage.innerText = '¡Perdiste! 👻';
-  }
+    gameOver = true;
+    resultMessage.classList.remove('hidden');
+    restartBtn.classList.remove('hidden');
 
-  restartBtn.addEventListener('click', restartGame);
+    if (victory) {
+        resultMessage.innerText = '¡Ganaste! 🎃';
+    } else {
+        resultMessage.innerText = '¡Perdiste! 👻';
+    }
+
+    restartBtn.addEventListener('click', restartGame);
 }
 
 function restartGame() {
-  // Reiniciar variables
-  score = 0;
-  time = 30;
-  gravity = 0.01;  // Reiniciar gravedad
-  gameOver = false;
-  scoreDisplay.innerText = 'Puntos: 0';
-  timeDisplay.innerText = 'Tiempo: 30';
-  resultMessage.classList.add('hidden');
-  restartBtn.classList.add('hidden');
+    // Reiniciar variables
+    score = 0;
+    time = 30;
+    gravity = 0.01;  // Reiniciar gravedad
+    gameOver = false;
+    scoreDisplay.innerText = 'Puntos: 0';
+    timeDisplay.innerText = 'Tiempo: 30';
+    resultMessage.classList.add('hidden');
+    restartBtn.classList.add('hidden');
 
-  // Eliminar los objetos restantes
-  fallingObjects.forEach(obj => scene.remove(obj));
-  fallingObjects = [];
+    // Eliminar los objetos restantes
+    fallingObjects.forEach(obj => scene.remove(obj));
+    fallingObjects = [];
 
-  // Iniciar nuevamente
-  spawnObject();
-  animate();
+    // Iniciar nuevamente
+    spawnObject();
+    animate();
 }
 
 function initSound() {
-    // 3d Sound
+    // 3D Sound
 }
 
 function createLight() {
     var light2 = new THREE.AmbientLight(0xffffff);
     light2.position.set(10, 10, 10);
     scene.add(light2);
-    light = new THREE.DirectionalLight(0xffffff, 0, 1000);
+    light = new THREE.DirectionalLight(0xffffff, 0.5); // Ajusta la intensidad si es necesario
+    light.position.set(0, 10, 0);
     scene.add(light);
 }
 
