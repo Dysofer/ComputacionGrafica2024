@@ -3,10 +3,7 @@ var scene = null,
     renderer = null,
     controls = null,
     myLight = null;
-
-const size = 20,
-      division = 20;
-
+    
 function startScene() {
     // Crear la escena, cámara y renderizador
     scene  = new THREE.Scene();
