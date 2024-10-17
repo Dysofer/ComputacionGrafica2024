@@ -4,7 +4,7 @@ function createUI() {
     var gui = new dat.GUI();
 
     var param = {
-        a: "Cerdo",
+        a: " ",
         b: "#FF00FF",
         c: 1
     };
@@ -54,8 +54,16 @@ function loadObjMtl(selectedPlayer) {
         objLoader.load(fileObj, function(object) {
             currentObject = object; // Almacenar la referencia del objeto actual
             scene.add(object);
-            object.scale.set(0.02, 0.02, 0.02);
-            object.position.set(-1.2, 0, -4);
+
+            // Ajustar la escala del objeto
+            if (selectedPlayer === "Cerdo") {
+                object.scale.set(0.8, 0.8, 0.8); // Escala para el cerdo
+            } else {
+                object.scale.set(0.02, 0.02, 0.02); // Escala para otros modelos
+            }
+
+            object.position.set(-1.5, 0, -4);
         });
     });
 }
+
