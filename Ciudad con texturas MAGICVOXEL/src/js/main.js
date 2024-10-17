@@ -26,7 +26,7 @@ function startScene() {
     createLight("spot");
 
     // Plano Floor 
-    const floor = new THREE.TextureLoader().load('../src/img/City/Ciudad.jpg');
+    const floor = new THREE.TextureLoader().load('./src/img/city/Ciudad.jpg');
     const geometry = new THREE.PlaneGeometry(15, 15);
     const material = new THREE.MeshBasicMaterial({ color: 0xf8f9fa, side: THREE.DoubleSide, map: floor, transparent: true });
     plane = new THREE.Mesh(geometry, material); // Asegúrate de asignar el plano a la variable global
@@ -97,8 +97,8 @@ function deleteGeometry() {
 
 function createCity() {
     // Casa 1
-    const textureHouse1 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Azul.png'); // Cargar la textura
-    const textureHouse11 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Azul Trasero.png'); // Cargar la textura
+    const textureHouse1 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Azul.png'); // Cargar la textura
+    const textureHouse11 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Azul Trasero.png'); // Cargar la textura
 
     const geometryHouse1 = new THREE.BoxGeometry(2, 5, 2);
 
@@ -123,7 +123,7 @@ function createCity() {
 
 
     // Casa 2
-    const textureHouse2 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Rojo2.png'); // Cargar la textura
+    const textureHouse2 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Rojo2.png'); // Cargar la textura
 
     const geometryHouse2 = new THREE.BoxGeometry(2.5, 5, 2);
 
@@ -150,7 +150,7 @@ function createCity() {
 
 
     // Casa 3
-    const textureHouse3 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Verde.png'); // Cargar la textura
+    const textureHouse3 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Verde.png'); // Cargar la textura
 
     const geometryHouse3 = new THREE.BoxGeometry(2.5, 5, 2);
 
@@ -176,7 +176,7 @@ function createCity() {
 
 
     // Casa 4
-    const textureHouse4 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Rojo.png'); // Cargar la textura
+    const textureHouse4 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Rojo.png'); // Cargar la textura
 
     const geometryHouse4 = new THREE.BoxGeometry(2, 5, 2);
 
@@ -202,7 +202,7 @@ function createCity() {
 
 
     // Casa 5
-    const texture5 = new THREE.TextureLoader().load('../src/img/City/Edificio Ancho Azul.png'); // Cargar la textura
+    const texture5 = new THREE.TextureLoader().load('./src/img/city/Edificio Ancho Azul.png'); // Cargar la textura
 
     const geometryHouse5 = new THREE.BoxGeometry(2, 5, 5);
 
@@ -227,7 +227,7 @@ function createCity() {
     scene.add(cube5);
 
     // Casa 6
-    const texture6 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Naranja.png'); // Cargar la textura
+    const texture6 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Naranja.png'); // Cargar la textura
 
     const geometryHouse6 = new THREE.BoxGeometry(2, 5, 2);
 
@@ -252,7 +252,7 @@ function createCity() {
     scene.add(cube6);
     //Casa 7
     // Carga la textura
-    const texture7 = new THREE.TextureLoader().load('../src/img/City/Edificio Ancho Verde.png');
+    const texture7 = new THREE.TextureLoader().load('./src/img/city/Edificio Ancho Verde.png');
 
     // Crea la geometría del cubo
     const geometryHouse7 = new THREE.BoxGeometry(2, 5, 5);
@@ -279,7 +279,7 @@ function createCity() {
 
 
     // Casa 8
-    const textureHouse8 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Amarillo.png'); // Cargar la textura
+    const textureHouse8 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Amarillo.png'); // Cargar la textura
 
     const geometryHouse8 = new THREE.BoxGeometry(2, 5, 2);
 
@@ -304,7 +304,7 @@ function createCity() {
 
 
     // Casa 9
-    const textureHouse9 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Naranja2.png'); // Cargar la textura
+    const textureHouse9 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Naranja2.png'); // Cargar la textura
 
     const geometryHouse9 = new THREE.BoxGeometry(2.5, 6, 2);
 
@@ -330,7 +330,7 @@ function createCity() {
 
 
     // Casa 10  0x8FBCD4
-    const textureHouse10 = new THREE.TextureLoader().load('../src/img/City/Edificio ReDelgado.png'); // Cargar la textura
+    const textureHouse10 = new THREE.TextureLoader().load('./src/img/city/Edificio ReDelgado.png'); // Cargar la textura
 
     const geometryHouse10 = new THREE.BoxGeometry(2, 5, 0.9);
 
@@ -354,7 +354,7 @@ function createCity() {
     scene.add(cube10);
 
     // Casa 111
-    const texture11 = new THREE.TextureLoader().load('../src/img/City/Edificio Delgado Naranja2.png'); // Cargar la textura
+    const texture11 = new THREE.TextureLoader().load('./src/img/city/Edificio Delgado Naranja2.png'); // Cargar la textura
 
     const geometryHouse11 = new THREE.BoxGeometry(2.5, 6, 2);
 
@@ -581,7 +581,7 @@ function createCity() {
 
     // Cargar la textura de la imagen para las caras de las ruedas
     const textureLoader = new THREE.TextureLoader();
-    const wheelTexture = textureLoader.load('../src/img/City/Rueda.png');
+    const wheelTexture = textureLoader.load('./src/img/city/Rueda.png');
 
     // Crear geometría de la rueda
     const wheelGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 32);
