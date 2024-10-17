@@ -1,3 +1,4 @@
+
 function createUI() {
     var gui = new dat.GUI();
 
@@ -12,7 +13,6 @@ function createUI() {
 
     player.onChange(function(myPlayer) {
         console.log(myPlayer);
-        LoadObjMtl(myPlayer);
     });
 
     var l = gui.addFolder('Luces');
@@ -29,20 +29,12 @@ function createUI() {
     });
 }
 
-function loadObjMtl(Modelz){
-    //general path, nameObj, nameMTL
+function loadObjMtl() {
+    // general Path, nameObj, nameMTL
+    var generalPath = "./src/models/obj/myPlayer/";
+    var fileObj = "cerdo.obj";
+    var fileMtl = "cerdo.mtl";
 
-
-
-    var generalPath = "../src/models/modelos/obj/" + Modelz + "/";
-    var fileObj = Modelz + ".obj";
-    var fileMtl = Modelz + ".mtl";
-
-    /*
-    alert(generalPath);
-    alert(fileObj);
-    alert(fileMtl);
-    */
     var mtlLoader = new THREE.MTLLoader();
     mtlLoader.setTexturePath(generalPath);
     mtlLoader.setPath(generalPath);
@@ -53,30 +45,8 @@ function loadObjMtl(Modelz){
         objLoader.setMaterials(materials);
         objLoader.setPath(generalPath);
         objLoader.load(fileObj, function(object) {
-
-            
-
-            //si se ponde solo la variable en el if es para confirmar si vale algo o existe
-            if(Modelo){
-                scene.remove(Modelo);
-            }
-
-            
-
-            Modelo = object;
-            scene.add(Modelo);
-
-            
-            
-
-            
-
-             object.scale.set(0.25,0.25,0.25);
-
-            
-
-            object.position.set( 2, 0.01, -1);
-
-        });
-    });
+            scene.add(object);
+            object.scale.set(0.5, 0.5, 0.5);
+        });
+    });
 }
