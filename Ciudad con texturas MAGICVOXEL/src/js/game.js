@@ -2,13 +2,13 @@ function createUI() {
     var gui = new dat.GUI();
 
     var param = {
-        a: "Ronin",
+        a: "Cerdo",
         b: "#FF00FF",
         c: 1
     };
 
     var g = gui.addFolder('Geometria');
-    var player = g.add(param, 'a', ["Mujer", "Hombre", "Luigi", "Mario", "Ronin"]).name("Modelos 3D");
+    var player = g.add(param, 'a', ["Mujer", "Hombre", "Luigi", "Mario", "Cerdo"]).name("Modelos 3D");
 
     player.onChange(function(myPlayer) {
         console.log(myPlayer);
@@ -32,8 +32,8 @@ function createUI() {
 function loadObjMtl() {
     // general Path, nameObj, nameMTL
     var generalPath = "./src/models/obj/myPlayer/";
-    var fileObj = "ronin-1.obj";
-    var fileMtl = "ronin-1.mtl";
+    var fileObj = "Cerdo.obj";
+    var fileMtl = "Cerdo.mtl";
 
     var mtlLoader = new THREE.MTLLoader();
         mtlLoader.setTexturePath(generalPath);
