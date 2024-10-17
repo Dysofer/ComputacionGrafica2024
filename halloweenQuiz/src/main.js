@@ -72,7 +72,7 @@ function initBasicElements() {
     scene.fog = new THREE.Fog(colorFog, nearFog, far);
 
     // Crear jugador (simple cubo)
-    const geometryTexture = new THREE.TextureLoader().load('./src/img/HalloweenTexture.png');
+    const geometryTexture = new THREE.TextureLoader().load('./src/img/TexturaPump.png');
     const geometry2 = new THREE.BoxGeometry(1, 1, 1);
     const material2 = new THREE.MeshBasicMaterial({   map: geometryTexture,
       side: THREE.DoubleSide });
