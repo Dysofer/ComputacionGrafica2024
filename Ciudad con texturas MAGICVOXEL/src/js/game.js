@@ -1,5 +1,14 @@
 var currentObject = null; // Variable para almacenar el objeto actual
 
+// Mapeo de modelos a sus archivos .obj y .mtl
+const modelPaths = {
+    "Mujer": { obj: "mujer.obj", mtl: "mujer.mtl" },
+    "Hombre": { obj: "hombre.obj", mtl: "male02_dds.mtl", },
+    "Luigi": { obj: "luigi.obj", mtl: "luigi.mtl" },
+    "Mario": { obj: "mario.obj", mtl: "mario.mtl" },
+    "Cerdo": { obj: "cerdo.obj", mtl: "cerdo.mtl" }
+};
+
 function createUI() {
     var gui = new dat.GUI();
 
@@ -10,7 +19,7 @@ function createUI() {
     };
 
     var g = gui.addFolder('Geometria');
-    var player = g.add(param, 'a', ["Mujer", "Hombre", "Luigi", "Mario", "Cerdo"]).name("Modelos 3D");
+    var player = g.add(param, 'a', Object.keys(modelPaths)).name("Modelos 3D");
 
     player.onChange(function(myPlayer) {
         console.log(myPlayer);
@@ -32,10 +41,20 @@ function createUI() {
 }
 
 function loadObjMtl(selectedPlayer) {
-    // General Path, nameObj, nameMTL
+    // General Path
     var generalPath = "./src/models/obj/myPlayer/";
-    var fileObj = selectedPlayer + ".obj"; // Cambiar el nombre del archivo según el jugador seleccionado
-    var fileMtl = selectedPlayer + ".mtl"; // Cambiar el nombre del archivo según el jugador seleccionado
+
+    // Obtener los nombres de archivos para el modelo seleccionado
+    var files = modelPaths[selectedPlayer];
+
+    // Verificar si el modelo existe en modelPaths
+    if (!files) {
+        console.error("Modelo no encontrado para:", selectedPlayer);
+        return; // Salir de la función si el modelo no existe
+    }
+
+    var fileObj = files.obj; // Obtener el nombre del archivo .obj
+    var fileMtl = files.mtl; // Obtener el nombre del archivo .mtl
 
     // Si ya hay un objeto en la escena, lo eliminamos
     if (currentObject) {
@@ -62,8 +81,9 @@ function loadObjMtl(selectedPlayer) {
                 object.scale.set(0.02, 0.02, 0.02); // Escala para otros modelos
             }
 
-            object.position.set(-1.5, 0, -4);
+            object.position.set(-2.0, 0, -4);
+        }, undefined, function(error) {
+            console.error("Error al cargar el modelo:", error);
         });
     });
 }
-
