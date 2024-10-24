@@ -31,10 +31,12 @@ var posZ = 1;
 // ----------------------------
 // Funciones de creación init:
 // ----------------------------
+
 function start() {
     window.onresize = onWindowResize;
     initScene();
     animate();
+    
 }
 
 function onWindowResize() {
@@ -123,10 +125,10 @@ function createLight() {
 function initWorld() {
   // Cargar la isla
   var generalPathIsla = './modelos/island/';
-  createFistModel(generalPathIsla, 'littleisle.mtl', 'littleisle.obj', { x: 0, y: 0.08, z: 0 }, { x: 0.5, y: 0.08, z: 0.5 });
+  createFistModel(generalPathIsla, 'littleisle.mtl', 'littleisle.obj', { x: 0, y: -2, z: 0 }, { x: 0.5, y: 0.5, z: 0.5 });
 
   // Cargar y patrullar el pato
-  loadPato({ x: 5, y: 0.07, z: 5 }, { x: 0.2, y: 0.07, z: 0.2 });
+  loadPato({ x: 5, y: 0, z: 5 }, { x: 0.2, y: 0.2, z: 0.2 });
 }
 
 function loadPato(position, scale) {
@@ -155,10 +157,10 @@ function ataqueDePato() {
 function animatePato(pato) {
   // Definir las esquinas del cuadrado
   var corners = [
-      new THREE.Vector3(5, 0.5, 5),    // Esquina 1 (superior derecha)
-      new THREE.Vector3(-5, 0.5, 5),   // Esquina 2 (superior izquierda)
-      new THREE.Vector3(-5, 0.5, -5),  // Esquina 3 (inferior izquierda)
-      new THREE.Vector3(5, 0.5, -5)    // Esquina 4 (inferior derecha)
+      new THREE.Vector3(5, 0, 5),    // Esquina 1 (superior derecha)
+      new THREE.Vector3(-5, 0, 5),   // Esquina 2 (superior izquierda)
+      new THREE.Vector3(-5, 0, -5),  // Esquina 3 (inferior izquierda)
+      new THREE.Vector3(5, 0, -5)    // Esquina 4 (inferior derecha)
   ];
 
   var currentCornerIndex = 0; // Índice de la esquina actual
