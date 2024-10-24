@@ -145,15 +145,23 @@ function loadPato(position, scale) {
 
 var pato = null;  // Variable para almacenar el pato cargado
 
+var pato = null;  // Variable para almacenar el pato cargado
+var isPatoScaled = false; // Variable para controlar el estado del escalado
+
 // Función de ataque
 function ataqueDePato() {
     if (pato) {
-        pato.scale.set(pato.scale.x * 3, pato.scale.y * 3, pato.scale.z * 3);  // Escalar al triple
+        if (!isPatoScaled) {
+            pato.scale.set(pato.scale.x * 3, pato.scale.y * 3, pato.scale.z * 3);  // Escalar al triple
+            isPatoScaled = true; // Cambiar el estado a escalado
+        } else {
+            pato.scale.set(pato.scale.x / 3, pato.scale.y / 3, pato.scale.z / 3);  // Volver al tamaño original
+            isPatoScaled = false; // Cambiar el estado a no escalado
+        }
     } else {
         console.log("El pato aún no está cargado.");
     }
 }
-
 function animatePato(pato) {
   // Definir las esquinas del cuadrado
   var corners = [
@@ -218,28 +226,29 @@ function movePlayer(){
     }
   }
   
-   window.addEventListener('keydown', function(e) {
-    switch (e.keyCode) {
-      case 68:
-        input.right = 1;
-        break;
-      case 65:
-        input.left = 1; 
-        break;
-      case 87:
-        input.up = 1;
-        break;
-      case 83:
-        input.down = 1;
-        break;
-        case 84: // Keycode de la tecla 'T'
-            ataqueDePato();  // Llamar a la función de ataque
-            break;
-      case 27:
-        document.getElementById("blocker").style.display = 'block';
-        break;
-    }
-  });
+// Agrega el event listener para la tecla 'T'
+window.addEventListener('keydown', function(e) {
+  switch (e.keyCode) {
+      case 68: // Tecla 'D'
+          input.right = 1;
+          break;
+      case 65: // Tecla 'A'
+          input.left = 1; 
+          break;
+      case 87: // Tecla 'W'
+          input.up = 1;
+          break;
+      case 83: // Tecla 'S'
+          input.down = 1;
+          break;
+      case 84: // Keycode de la tecla 'T'
+          ataqueDePato();  // Llamar a la función de ataque
+          break;
+      case 27: // Tecla 'Escape'
+          document.getElementById("blocker").style.display = 'block'; //Para volver a la página principal
+          break;
+  }
+});
 
 
   window.addEventListener('keyup', function(e) {
