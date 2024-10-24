@@ -245,7 +245,7 @@ window.addEventListener('keydown', function(e) {
           ataqueDePato();  // Llamar a la función de ataque
           break;
       case 27: // Tecla 'Escape'
-          document.getElementById("blocker").style.display = 'block'; //Para volver a la página principal
+          document.getElementById("blocker").style.display = 'block'; //Para volver a la página
           break;
   }
 });
