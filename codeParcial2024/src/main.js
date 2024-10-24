@@ -123,12 +123,10 @@ function createLight() {
 function initWorld() {
   // Cargar la isla
   var generalPathIsla = './modelos/island/';
-  createFistModel(generalPathIsla, 'littleisle.mtl', 'littleisle.obj', { x: 0, y: -1.5, z: 0 }, { x: 0.5, y: -1.5, z: 0.5 });
-
+  createFistModel(generalPathIsla, 'littleisle.mtl', 'littleisle.obj', { x: 0, y: 0.08, z: 0 }, { x: 0.5, y: 0.08, z: 0.5 });
 
   // Cargar y patrullar el pato
-  loadPato({ x: 5, y: 0.5, z: 5 }, { x: 0.2, y: 0.2, z: 0.2 });
-
+  loadPato({ x: 5, y: 0.07, z: 5 }, { x: 0.2, y: 0.07, z: 0.2 });
 }
 
 function loadPato(position, scale) {
@@ -154,43 +152,40 @@ function ataqueDePato() {
     }
 }
 
-// Modificar la función de carga del pato para almacenar la referencia
-function loadPato(position, scale) {
-    var loader = new THREE.GLTFLoader();
-    loader.load('./modelos/other/Duck.gltf', function(gltf) {
-        pato = gltf.scene;  // Guardamos el pato en una variable global
-        pato.scale.set(scale.x, scale.y, scale.z);
-        pato.position.set(position.x, position.y, position.z);
-        scene.add(pato);
-
-        animatePato(pato);  // Llamar a la animación del pato
-    });
-}
-
 function animatePato(pato) {
-  var path = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(5, 0.5, 5),   // Esquina 1
-      new THREE.Vector3(-5, 0.5, 5),  // Esquina 2
-      new THREE.Vector3(-5, 0.5, -5), // Esquina 3
-      new THREE.Vector3(5, 0.5, -5),  // Esquina 4
-      new THREE.Vector3(5, 0.5, 5)    // De vuelta a Esquina 1
-  ]);
+  // Definir las esquinas del cuadrado
+  var corners = [
+      new THREE.Vector3(5, 0.5, 5),    // Esquina 1 (superior derecha)
+      new THREE.Vector3(-5, 0.5, 5),   // Esquina 2 (superior izquierda)
+      new THREE.Vector3(-5, 0.5, -5),  // Esquina 3 (inferior izquierda)
+      new THREE.Vector3(5, 0.5, -5)    // Esquina 4 (inferior derecha)
+  ];
 
-  var speed = 0.001;  // Velocidad del pato
-  var time = 0;
+  var currentCornerIndex = 0; // Índice de la esquina actual
+  var speed = 0.02; // Velocidad del pato
+  var direction = new THREE.Vector3(); // Dirección del movimiento
+  var target = corners[currentCornerIndex]; // Objetivo inicial
 
   function move() {
-      time += speed;
-      if (time > 1) time = 0;  // Reiniciar el tiempo cuando complete el recorrido
+      // Calcular la dirección hacia la esquina objetivo
+      direction.copy(target).sub(pato.position).normalize();
+      
+      // Mover el pato en la dirección calculada
+      pato.position.add(direction.multiplyScalar(speed));
 
-      var position = path.getPointAt(time);  // Obtener la posición del pato en el recorrido
-      pato.position.set(position.x, 0.5, position.z);  // Mover el pato en el eje Y a 0.5
+      // Comprobar si el pato ha alcanzado la esquina objetivo
+      if (pato.position.distanceTo(target) < 0.1) {
+          // Cambiar a la siguiente esquina
+          currentCornerIndex = (currentCornerIndex + 1) % corners.length;
+          target = corners[currentCornerIndex];
+      }
 
-      requestAnimationFrame(move);  // Continuar la animación
+      requestAnimationFrame(move); // Continuar la animación
   }
 
-  move();  // Iniciar la animación
+  move(); // Iniciar la animación
 }
+
 
 // ----------------------------------
 // Función Para mover al jugador:
@@ -293,7 +288,7 @@ function showInfoCreator() {
 // ----------------------------------
 function createPlayerMove() {
   var cubeGeometry = new THREE.CubeGeometry(1,1,1,1,1,1);
-	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe:true, transparent: true, opacity: 0.0 } );
+	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe:true, transparent: false, opacity: 0.0 } );
 	MovingCube = new THREE.Mesh( cubeGeometry, wireMaterial );
 	MovingCube.position.set(camera.position.x,camera.position.y,camera.position.z);
 	scene.add( MovingCube );
@@ -301,7 +296,7 @@ function createPlayerMove() {
 
 function createFrontera() {
     var cubeGeometry = new THREE.CubeGeometry(12,5,12,1,1,1);
-	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe:true, transparent: true, opacity: 0.0 } );
+	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe:true, transparent: false, opacity: 0.0 } );
 	worldWalls = new THREE.Mesh( cubeGeometry, wireMaterial );
 	worldWalls.position.set(5,0,0);
 	scene.add( worldWalls );
