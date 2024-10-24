@@ -91,31 +91,26 @@ function initSound() {
     });
 }
 
-function createFistModel(generalPath,pathMtl,pathObj) {
-    var mtlLoader = new THREE.MTLLoader();
-    mtlLoader.setTexturePath(generalPath);
-    mtlLoader.setPath(generalPath);
-    mtlLoader.load(pathMtl, function (materials) {
-
-        materials.preload();
-
-        var objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.setPath(generalPath);
-        objLoader.load(pathObj, function (object) {
-
-            modelLoad = object;
-            figuresGeo.push(modelLoad);
-            scene.add(object);
-            object.scale.set(0.1,0.1,0.1);
-
-            object.position.y = 0;
-            object.position.x = 5;
-
-        });
-
-    });
+function createFistModel(generalPath, pathMtl, pathObj, position, scale) {
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setTexturePath(generalPath);
+  mtlLoader.setPath(generalPath);
+  mtlLoader.load(pathMtl, function (materials) {
+      materials.preload();
+      var objLoader = new THREE.OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.setPath(generalPath);
+      objLoader.load(pathObj, function (object) {
+          modelLoad = object;
+          figuresGeo.push(modelLoad);
+          scene.add(object);
+          
+          object.scale.set(scale.x, scale.y, scale.z);  // Ajustar escala dinámica
+          object.position.set(position.x, position.y, position.z);  // Posicionar dinámicamente
+      });
+  });
 }
+
 
 function createLight() {
     var light2 = new THREE.AmbientLight(0xffffff);
@@ -126,9 +121,77 @@ function createLight() {
 }
 
 function initWorld() {
-    // Create Island
-    
+  // Cargar la isla
+  var generalPathIsla = './modelos/island/';
+  createFistModel(generalPathIsla, 'littleisle.mtl', 'littleisle.obj', { x: 0, y: -1.5, z: 0 }, { x: 0.5, y: -1.5, z: 0.5 });
+
+
+  // Cargar y patrullar el pato
+  loadPato({ x: 5, y: 0.5, z: 5 }, { x: 0.2, y: 0.2, z: 0.2 });
+
 }
+
+function loadPato(position, scale) {
+  var loader = new THREE.GLTFLoader();
+  loader.load('./modelos/other/Duck.gltf', function(gltf) {
+      pato = gltf.scene;  // Guardamos el pato en una variable global
+      pato.scale.set(scale.x, scale.y, scale.z);
+      pato.position.set(position.x, position.y, position.z); // Asegúrate de que 'y' esté ajustado
+      scene.add(pato);
+
+      animatePato(pato);  // Llamar a la animación del pato
+  });
+}
+
+var pato = null;  // Variable para almacenar el pato cargado
+
+// Función de ataque
+function ataqueDePato() {
+    if (pato) {
+        pato.scale.set(pato.scale.x * 3, pato.scale.y * 3, pato.scale.z * 3);  // Escalar al triple
+    } else {
+        console.log("El pato aún no está cargado.");
+    }
+}
+
+// Modificar la función de carga del pato para almacenar la referencia
+function loadPato(position, scale) {
+    var loader = new THREE.GLTFLoader();
+    loader.load('./modelos/other/Duck.gltf', function(gltf) {
+        pato = gltf.scene;  // Guardamos el pato en una variable global
+        pato.scale.set(scale.x, scale.y, scale.z);
+        pato.position.set(position.x, position.y, position.z);
+        scene.add(pato);
+
+        animatePato(pato);  // Llamar a la animación del pato
+    });
+}
+
+function animatePato(pato) {
+  var path = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(5, 0.5, 5),   // Esquina 1
+      new THREE.Vector3(-5, 0.5, 5),  // Esquina 2
+      new THREE.Vector3(-5, 0.5, -5), // Esquina 3
+      new THREE.Vector3(5, 0.5, -5),  // Esquina 4
+      new THREE.Vector3(5, 0.5, 5)    // De vuelta a Esquina 1
+  ]);
+
+  var speed = 0.001;  // Velocidad del pato
+  var time = 0;
+
+  function move() {
+      time += speed;
+      if (time > 1) time = 0;  // Reiniciar el tiempo cuando complete el recorrido
+
+      var position = path.getPointAt(time);  // Obtener la posición del pato en el recorrido
+      pato.position.set(position.x, 0.5, position.z);  // Mover el pato en el eje Y a 0.5
+
+      requestAnimationFrame(move);  // Continuar la animación
+  }
+
+  move();  // Iniciar la animación
+}
+
 // ----------------------------------
 // Función Para mover al jugador:
 // ----------------------------------
@@ -172,6 +235,9 @@ function movePlayer(){
       case 83:
         input.down = 1;
         break;
+        case 84: // Keycode de la tecla 'T'
+            ataqueDePato();  // Llamar a la función de ataque
+            break;
       case 27:
         document.getElementById("blocker").style.display = 'block';
         break;
