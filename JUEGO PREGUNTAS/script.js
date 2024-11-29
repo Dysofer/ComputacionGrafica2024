@@ -1,3 +1,4 @@
+
 let preguntas_aleatorias = true;
 let mostrar_pantalla_juego_términado = true;
 let reiniciar_puntos_al_reiniciar_el_juego = true;
@@ -57,8 +58,7 @@ function load3DModels() {
   // Cargar los otros modelos dinámicos
   const models = [
     { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 3, position: { x: -5, y: 0, z: 0 } },
-    { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 4, position: { x: 0, y: 0, z: 0 } },
-    { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 2, position: { x: 5, y: 0, z: 0 } }
+    { mtl: 'assets/galaxy.mtl', obj: 'assets/galaxy.obj', scale: 1, position: { x: -5, y: 0, z: 0 } },
   ];
 
   models.forEach((model) => {

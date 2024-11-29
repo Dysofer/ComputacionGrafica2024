@@ -31,7 +31,7 @@ Al final del juego, se muestra una puntuación que refleja cuántas preguntas se
 
 - **index.html**: Archivo principal que contiene la estructura de la página web.
 - **style.css**: Archivo que contiene los estilos y el diseño del juego.
-- **script.js**: Archivo JavaScript que maneja la lógica del juego, como la selección de preguntas, las respuestas, el seguimi
+- **script.js**: Archivo JavaScript que maneja la lógica del juego, como la selección de preguntas, las respuestas
 
 ## Autores
 - **Dilan Solís Fernández** 
