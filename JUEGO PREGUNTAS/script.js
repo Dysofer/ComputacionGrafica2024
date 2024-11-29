@@ -45,19 +45,13 @@ function initThreeJS() {
 function load3DModels() {
   // Cargar el modelo estático (edificio)
   mtlLoader.load('assets/edificio.mtl', function (materials) {
-    materials.preload(); // Pre-cargar los materiales
-    objLoader.setMaterials(materials); // Asociar materiales a los modelos
-
-    // Cargar el archivo .obj
+    materials.preload();
+    objLoader.setMaterials(materials);
     objLoader.load('assets/edificio.obj', function (object) {
-      object.scale.set(3, 3, 3); // Ajustar la escala
+      object.scale.set(3, 3, 3); // Ajustar el tamaño del edificio
       object.position.set(0, -1, 0); // Centrar el edificio un poco más arriba
       scene.add(object);
-    }, function (error) {
-      console.error('Error cargando el archivo .obj:', error);
     });
-  }, function (error) {
-    console.error('Error cargando el archivo .mtl:', error);
   });
 
   // Cargar los otros modelos dinámicos
@@ -70,19 +64,13 @@ function load3DModels() {
   models.forEach((model) => {
     mtlLoader.load(model.mtl, function (materials) {
       materials.preload();
-      objLoader.setMaterials(materials); // Asociar materiales al cargador de objetos
-
-      // Cargar el archivo .obj
+      objLoader.setMaterials(materials);
       objLoader.load(model.obj, function (object) {
-        object.scale.set(model.scale, model.scale, model.scale);
-        object.position.set(model.position.x, model.position.y, model.position.z);
+        object.scale.set(model.scale, model.scale, model.scale); // Ajustar la escala
+        object.position.set(model.position.x, model.position.y, model.position.z); // Establecer la posición
         scene.add(object);
-        backgroundObjects.push(object); // Agregar el modelo al array
-      }, function (error) {
-        console.error('Error cargando el archivo .obj:', error);
+        backgroundObjects.push(object); // Agregar los modelos dinámicos al array
       });
-    }, function (error) {
-      console.error('Error cargando el archivo .mtl:', error);
     });
   });
 }
