@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib personaje pintado.mtl
+mtllib personaje.mtl
 usemtl palette
 
 # normals

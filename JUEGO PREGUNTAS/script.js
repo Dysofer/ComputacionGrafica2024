@@ -4,7 +4,7 @@ let reiniciar_puntos_al_reiniciar_el_juego = true;
 
 // Variables de Three.js
 let scene, camera, renderer, mtlLoader, objLoader;
-let backgroundObjects = []; // Array para manejar varios objetos
+let backgroundObjects = []; // Array para manejar los objetos dinámicos
 
 window.onload = function () {
   base_preguntas = readText("base-preguntas.json");
@@ -43,36 +43,59 @@ function initThreeJS() {
 }
 
 function load3DModels() {
+  // Cargar el modelo estático (edificio)
+  mtlLoader.load('assets/edificio.mtl', function (materials) {
+    materials.preload(); // Pre-cargar los materiales
+    objLoader.setMaterials(materials); // Asociar materiales a los modelos
+
+    // Cargar el archivo .obj
+    objLoader.load('assets/edificio.obj', function (object) {
+      object.scale.set(3, 3, 3); // Ajustar la escala
+      object.position.set(0, -1, 0); // Centrar el edificio un poco más arriba
+      scene.add(object);
+    }, function (error) {
+      console.error('Error cargando el archivo .obj:', error);
+    });
+  }, function (error) {
+    console.error('Error cargando el archivo .mtl:', error);
+  });
+
+  // Cargar los otros modelos dinámicos
   const models = [
-    { mtl: 'assets/edificio.mtl', obj: 'assets/edificio.obj', scale: 3 },
-    { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 5 },
-    { mtl: 'assets/modelo3.mtl', obj: 'assets/modelo3.obj', scale: 4 },
+    { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 3, position: { x: -5, y: 0, z: 0 } },
+    { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 4, position: { x: 0, y: 0, z: 0 } },
+    { mtl: 'assets/personaje.mtl', obj: 'assets/personaje.obj', scale: 2, position: { x: 5, y: 0, z: 0 } }
   ];
 
-  models.forEach((model, index) => {
-    // Cargar el archivo MTL
+  models.forEach((model) => {
     mtlLoader.load(model.mtl, function (materials) {
       materials.preload();
-      
-      // Cargar el archivo OBJ
-      objLoader.setMaterials(materials);
+      objLoader.setMaterials(materials); // Asociar materiales al cargador de objetos
+
+      // Cargar el archivo .obj
       objLoader.load(model.obj, function (object) {
-        // Ajustar escala y posición inicial
         object.scale.set(model.scale, model.scale, model.scale);
-        object.position.x = index * 10 - 10; // Distribuir los modelos en el eje X
+        object.position.set(model.position.x, model.position.y, model.position.z);
         scene.add(object);
-        backgroundObjects.push(object);
+        backgroundObjects.push(object); // Agregar el modelo al array
+      }, function (error) {
+        console.error('Error cargando el archivo .obj:', error);
       });
+    }, function (error) {
+      console.error('Error cargando el archivo .mtl:', error);
     });
   });
 }
 
 function animate() {
   requestAnimationFrame(animate);
+
+  // Animar los modelos dinámicos (rotación)
   backgroundObjects.forEach((object, index) => {
-    object.rotation.y += 0.005; // Rotar cada modelo
-    if (index % 2 === 0) object.rotation.x += 0.002; // Rotar alternadamente en X
+    object.rotation.y += 0.005; // Rotar cada modelo alrededor del eje Y
+    if (index % 2 === 0) object.rotation.x += 0.002; // Rotar alternadamente en X para algunos objetos
   });
+
   renderer.render(scene, camera);
 }
 
